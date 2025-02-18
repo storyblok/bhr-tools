@@ -32,15 +32,70 @@ const report = await bhr.getCustomReport(
 );
 
 console.log(report.employees);
+//          ^ fully typed now
 ```
 
-### `getCustomReport()`
+If no schema is provided to the provided functions, the return value will be typed as `unknown` for you to validate yourself.
 
-Get a custom report from BambooHR.
+### Standard Reports
 
-First parameter is an array of fields to include in the report.
+```js
+const report = await bhr.getReport(
+  42, // report with id 42
+  z.object({
+    id: z.string(),
+    jobTitle: z.string().nullable(),
+  })
+);
+```
 
-Second parameter zod schema for the employees array. Pass `z.unknown()` if you don't need to validate the employees array.
+### Custom Reports
+
+```js
+const report = await bhr.getCustomReport(
+  ['id', 'jobTitle'],
+  z.object({
+    id: z.string(),
+    jobTitle: z.string().nullable(),
+  })
+);
+```
+
+### Tables
+
+```js
+const report = await bhr.getTable(
+  'compensation',
+  z.object({
+    id: z.string(),
+    employeeId: z.string(),
+    type: z.string(),
+    rate: z.object({
+      currency: z.string(),
+      value: z.coerce.number(),
+    }),
+  })
+);
+```
+
+### Dates
+
+In situations where the API may return dates in the format `0000-00-00`, the exported `bhrDate` zod schema can be used for your schemas.
+
+```js
+import { BHR, bhrDate } from 'bhr-tools';
+import { z } from 'zod';
+
+const bhr = new BHR('apiKey', 'companyDomain');
+
+const report = await bhr.getCustomReport(
+  ['id', 'terminationDate'],
+  z.object({
+    id: z.string(),
+    terminationDate: bhrDate.nullable(), // coerce BambooHR's date strings into date objects
+  })
+);
+```
 
 ## Development
 
