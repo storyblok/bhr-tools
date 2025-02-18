@@ -1,0 +1,9 @@
+colors: false
+skip_output: true
+pre-commit:
+  commands:
+    check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: pnpm biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true {staged_files} --colors=off --log-kind=compact && git update-index --again
+    build:
+      run: pnpm tsc --noEmit --pretty false

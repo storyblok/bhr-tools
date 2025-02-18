@@ -1,0 +1,14 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Run pnpm start",
+			"request": "launch",
+			"runtimeArgs": ["run-script", "start"],
+			"runtimeExecutable": "pnpm",
+			"skipFiles": ["<node_internals>/**"],
+			"type": "node",
+			"envFile": "${workspaceFolder}/.env"
+		}
+	]
+}
