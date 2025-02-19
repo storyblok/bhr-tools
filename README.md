@@ -1,4 +1,4 @@
-# BambooHR
+# BHR Tools
 
 This is an unofficial library that wraps the BambooHR® API.
 The focus is on providing type safe reports and table contents using [zod](https://zod.dev).
