@@ -35,8 +35,6 @@ console.log(report.employees);
 //          ^ fully typed now
 ```
 
-If no schema is provided to the provided functions, the return value will be typed as `unknown` for you to validate yourself.
-
 ### Standard Reports
 
 ```js

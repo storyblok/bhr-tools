@@ -46,9 +46,8 @@ export class BHR {
 	 */
 	async getReport<T extends z.ZodTypeAny>(
 		reportId: string | number,
-		schema?: T,
+		schema: T,
 	) {
-		const employeeSchema = schema ?? z.unknown();
 		const res = await fetch(
 			`${this.baseUrl}/v1/reports/${reportId}?format=json`,
 			{
@@ -57,7 +56,7 @@ export class BHR {
 			},
 		);
 		const report = reportSchema
-			.extend({ employees: employeeSchema.array() })
+			.extend({ employees: schema.array() })
 			.parse(await res.json());
 		return report;
 	}
@@ -75,16 +74,15 @@ export class BHR {
 	async getTable<T extends z.ZodTypeAny>(
 		tableName: string,
 		since: Date,
-		schema?: T,
+		schema: T,
 	) {
-		const employeeSchema = schema ?? z.unknown();
 		const tableSchema = z.object({
 			table: z.string(),
 			employees: z.record(
 				z.string(),
 				z.object({
 					lastChanged: z.coerce.date(),
-					rows: z.array(employeeSchema),
+					rows: z.array(schema),
 				}),
 			),
 		});
