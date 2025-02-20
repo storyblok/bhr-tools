@@ -22,15 +22,14 @@ export class BHR {
 	 * @param schema zod schema for the employees array.
 	 * @returns Fully typed report
 	 */
-	async getCustomReport<T extends z.ZodTypeAny>(fields: string[], schema?: T) {
-		const employeeSchema = schema ?? z.unknown();
+	async getCustomReport<T extends z.ZodTypeAny>(fields: string[], schema: T) {
 		const res = await fetch(`${this.baseUrl}/v1/reports/custom?format=json`, {
 			body: JSON.stringify({ fields }),
 			headers: this.headers,
 			method: "POST",
 		});
-		const report = reportSchema
-			.extend({ employees: employeeSchema.array() })
+		const report = BHR.reportSchema
+			.extend({ employees: schema.array() })
 			.parse(await res.json());
 		return report;
 	}
@@ -55,7 +54,7 @@ export class BHR {
 				headers: this.headers,
 			},
 		);
-		const report = reportSchema
+		const report = BHR.reportSchema
 			.extend({ employees: schema.array() })
 			.parse(await res.json());
 		return report;
@@ -99,18 +98,17 @@ export class BHR {
 		const table = tableSchema.parse(await res.json());
 		return table;
 	}
+	static reportSchema = z.object({
+		title: z.string(),
+		fields: z.array(
+			z.object({
+				id: z.coerce.string(),
+				name: z.string(),
+			}),
+		),
+		employees: z.array(z.unknown()),
+	});
 }
-
-const reportSchema = z.object({
-	title: z.string(),
-	fields: z.array(
-		z.object({
-			id: z.coerce.string(),
-			name: z.string(),
-		}),
-	),
-	employees: z.array(z.unknown()),
-});
 
 export const bhrDate = z
 	.string()

@@ -15,11 +15,11 @@
 		"@biomejs/biome": "1.9.4",
 		"@changesets/cli": "^2.28.0",
 		"@types/node": "^22.13.4",
-		"lefthook": "^1.6.13",
-		"tsup": "^8.0.2",
-		"typescript": "^5.4.5"
+		"lefthook": "^1.10.10",
+		"tsup": "^8.3.6",
+		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"zod": "^3.23.8"
+		"zod": "^3.24.2"
 	}
 }
