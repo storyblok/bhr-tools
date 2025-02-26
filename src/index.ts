@@ -20,10 +20,19 @@ export class BHR {
 	 * Get a custom report
 	 * @param fields array of fields to include in the report
 	 * @param schema zod schema for the employees array.
+	 * @param options additional options to pass as url parameters
 	 * @returns Fully typed report
 	 */
-	async getCustomReport<T extends z.ZodTypeAny>(fields: string[], schema: T) {
-		const res = await fetch(`${this.baseUrl}/v1/reports/custom?format=json`, {
+	async getCustomReport<T extends z.ZodTypeAny>(
+		fields: string[],
+		schema: T,
+		options?: { onlyCurrent: boolean },
+	) {
+		const params = new URLSearchParams({
+			format: "json",
+			onlyCurrent: (options?.onlyCurrent ?? true) ? "1" : "0",
+		});
+		const res = await fetch(`${this.baseUrl}/v1/reports/custom?${params}`, {
 			body: JSON.stringify({ fields }),
 			headers: this.headers,
 			method: "POST",
@@ -41,14 +50,20 @@ export class BHR {
 	 *
 	 * @param reportId The ID of the report.
 	 * @param schema zod schema for the employees array.
+	 * @param options additional options to pass as url parameters
 	 * @returns Fully typed report
 	 */
 	async getReport<T extends z.ZodTypeAny>(
 		reportId: string | number,
 		schema: T,
+		options?: { onlyCurrent: boolean },
 	) {
+		const params = new URLSearchParams({
+			format: "json",
+			onlyCurrent: (options?.onlyCurrent ?? true) ? "1" : "0",
+		});
 		const res = await fetch(
-			`${this.baseUrl}/v1/reports/${reportId}?format=json`,
+			`${this.baseUrl}/v1/reports/${reportId}?${params}`,
 			{
 				method: "GET",
 				headers: this.headers,
