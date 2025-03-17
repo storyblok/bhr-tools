@@ -1,5 +1,11 @@
 # bhr-tools
 
+## 2.1.0
+
+### Minor Changes
+
+- 7af43b5: Add option to report functions to get future-dated employees (`onlyCurrent`)
+
 ## 2.0.0
 
 ### Major Changes
