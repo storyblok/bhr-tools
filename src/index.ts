@@ -56,11 +56,12 @@ export class BHR {
 	async getReport<T extends z.ZodTypeAny>(
 		reportId: string | number,
 		schema: T,
-		options?: { onlyCurrent: boolean },
+		options?: { onlyCurrent?: boolean; filterDuplicates?: boolean },
 	) {
 		const params = new URLSearchParams({
 			format: "json",
 			onlyCurrent: (options?.onlyCurrent ?? true) ? "1" : "0",
+			fd: (options?.filterDuplicates ?? true) ? "yes" : "no",
 		});
 		const res = await fetch(
 			`${this.baseUrl}/v1/reports/${reportId}?${params}`,
