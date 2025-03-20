@@ -1,5 +1,11 @@
 # bhr-tools
 
+## 2.2.0
+
+### Minor Changes
+
+- 12cea40: adds `fd` parameter to report options to filter duplicate lines
+
 ## 2.1.0
 
 ### Minor Changes

@@ -1,7 +1,7 @@
 {
 	"name": "bhr-tools",
 	"description": "A collection of tools for BambooHR",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
