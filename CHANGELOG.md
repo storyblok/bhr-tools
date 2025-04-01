@@ -1,5 +1,11 @@
 # bhr-tools
 
+## 2.2.1
+
+### Patch Changes
+
+- 6216c45: Update package metadata for public release
+
 ## 2.2.0
 
 ### Minor Changes

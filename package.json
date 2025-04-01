@@ -9,8 +9,12 @@
 	"bugs": {
 		"url": "https://github.com/storyblok/bhr-tools/issues"
 	},
-	"keywords": ["BambooHR", "BHR", "zod"],
-	"version": "2.2.0",
+	"keywords": [
+		"BambooHR",
+		"BHR",
+		"zod"
+	],
+	"version": "2.2.1",
 	"license": "MIT",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
