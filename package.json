@@ -1,6 +1,15 @@
 {
 	"name": "@storyblok/bhr-tools",
 	"description": "A collection of tools for BambooHR",
+	"homepage": "https://github.com/storyblok/bhr-tools#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/storyblok/bhr-tools.git"
+	},
+	"bugs": {
+		"url": "https://github.com/storyblok/bhr-tools/issues"
+	},
+	"keywords": ["BambooHR", "BHR", "zod"],
 	"version": "2.2.0",
 	"license": "MIT",
 	"main": "dist/index.js",
