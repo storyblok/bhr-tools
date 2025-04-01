@@ -9,11 +9,7 @@
 	"bugs": {
 		"url": "https://github.com/storyblok/bhr-tools/issues"
 	},
-	"keywords": [
-		"BambooHR",
-		"BHR",
-		"zod"
-	],
+	"keywords": ["BambooHR", "BHR", "zod"],
 	"version": "2.2.1",
 	"license": "MIT",
 	"main": "dist/index.js",
@@ -26,11 +22,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@changesets/cli": "^2.28.0",
-		"@types/node": "^22.13.4",
-		"lefthook": "^1.10.10",
-		"tsup": "^8.3.6",
-		"typescript": "^5.7.3"
+		"@changesets/cli": "^2.28.1",
+		"@types/node": "^22.13.16",
+		"lefthook": "^1.11.6",
+		"tsup": "^8.4.0",
+		"typescript": "^5.8.2"
 	},
 	"dependencies": {
 		"zod": "^3.24.2"
