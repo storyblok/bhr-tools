@@ -1,5 +1,5 @@
 {
-	"name": "bhr-tools",
+	"name": "@storyblok/bhr-tools",
 	"description": "A collection of tools for BambooHR",
 	"version": "2.2.0",
 	"license": "MIT",
