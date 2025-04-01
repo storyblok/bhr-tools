@@ -18,7 +18,6 @@
 	"scripts": {
 		"build": "tsup src/index.ts --format cjs,esm --dts",
 		"release": "pnpm run build && changeset publish",
-		"ci:publish": "pnpm publish -r --access=public",
 		"lint": "tsc"
 	},
 	"devDependencies": {
