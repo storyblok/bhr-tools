@@ -8,7 +8,7 @@ The focus is on providing type safe reports and table contents using [zod](https
 Install the package with:
 
 ```sh
-npm i bhr-tools
+npm i @storyblok/bhr-tools
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ The package needs to be configured with your account's apiKey and company domain
 Find instructions on how to find/create them in the [official documentation](https://documentation.bamboohr.com/docs/getting-started).
 
 ```js
-import { BHR, bhrDate } from 'bhr-tools';
+import { BHR, bhrDate } from '@storyblok/bhr-tools';
 import { z } from 'zod'; // zod is used to validate and parse responses
 
 const bhr = new BHR('apiKey', 'companyDomain');
@@ -81,7 +81,7 @@ const report = await bhr.getTable(
 In situations where the API may return dates in the format `0000-00-00`, the exported `bhrDate` zod schema can be used for your schemas.
 
 ```js
-import { BHR, bhrDate } from 'bhr-tools';
+import { BHR, bhrDate } from '@storyblok/bhr-tools';
 import { z } from 'zod';
 
 const bhr = new BHR('apiKey', 'companyDomain');
