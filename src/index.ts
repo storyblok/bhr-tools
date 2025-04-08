@@ -137,6 +137,54 @@ export class BHR {
 		const datasetIndex = datasetIndexSchema.parse(await res.json());
 		return datasetIndex;
 	}
+
+	/**
+	 * Retrieve fields available in a dataset.
+	 *
+	 * @param datasetName Name of the dataset, as reported by {@link getDatasets}
+	 * @param page Page parameter for pagination, defaults to first page (page 1)
+	 * @param pageSize Maximum number of fields returned per page. Default 500, Max 1000
+	 *
+	 * @returns Dataset Fields
+	 */
+	async getDatasetFields(
+		datasetName: string,
+		page?: number,
+		pageSize?: number,
+	) {
+		const params = new URLSearchParams({});
+		if (page) {
+			params.append("page", page.toString());
+		}
+		if (pageSize) {
+			params.append("page_size", pageSize.toString());
+		}
+
+		const datasetFieldIndexSchema = z.object({
+			pagination: paginationSchema,
+			name: z.string(),
+			label: z.string(),
+			fields: z
+				.object({
+					name: z.string(),
+					label: z.string(),
+					parentType: z.string(),
+					parentName: z.string(),
+				})
+				.array(),
+		});
+
+		const res = await fetch(
+			`${this.baseUrl}/v1/datasets/${datasetName}/fields?${params.toString()}`,
+			{
+				method: "GET",
+				headers: this.headers,
+			},
+		);
+		const datasetFields = datasetFieldIndexSchema.parse(await res.json());
+
+		return datasetFields;
+	}
 	static reportSchema = z.object({
 		title: z.string(),
 		fields: z.array(
@@ -154,3 +202,11 @@ export const bhrDate = z
 	.transform((dateString) =>
 		dateString === "0000-00-00" ? null : z.coerce.date().parse(dateString),
 	);
+
+const paginationSchema = z.object({
+	total_records: z.number(),
+	current_page: z.number(),
+	total_pages: z.number(),
+	next_page: z.string().nullable(),
+	previous_page: z.string().nullable(),
+});
