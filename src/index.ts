@@ -185,6 +185,69 @@ export class BHR {
 
 		return datasetFields;
 	}
+
+	/**
+	 * Get entries from a Dataset
+	 *
+	 * **Note**: The dataset API does not seem stable as of 2025-04-08.
+	 * Especially filters, groupBy, aggregations and sortBy do not seem to be behaving as documented.
+	 *
+	 * @param datasetName Name of the dataset, as reported by {@link getDatasets}
+	 * @param options.fields List of field names to retrieve from the dataset.
+	 * @param options.aggregations Aggregations to apply to fields
+	 * @param options.sortBy Sorting of result set
+	 * @param options.groupBy Grouping of result set
+	 * @param options.filters Result set filters
+	 * @param options.pageSize Maximum number of records returned per page. Default 500, Max 1000
+	 * @param options.groupBy Page parameter for pagination, defaults to first page (page 1)
+	 * @param schema zod schema for the indiviual returned objects in the response `data` array.
+	 * @returns typed dataset
+	 */
+	async getDataset<T extends z.ZodTypeAny>(
+		datasetName: string,
+		options: {
+			fields: string[];
+			aggregations?: Aggregation[];
+			sortBy?: Sort[];
+			filters?: Filter;
+			groupBy?: Group;
+			pageSize?: number;
+			page?: number;
+		},
+		schema: T,
+	) {
+		const params = new URLSearchParams({});
+		if (options.page) {
+			params.append("page", options.page.toString());
+		}
+		if (options.pageSize) {
+			params.append("page_size", options.pageSize.toString());
+		}
+
+		const datasetSchema = z.object({
+			data: schema.array(),
+			aggregations: z
+				.object({
+					field: z.string(),
+					aggregationType: z.string(),
+					all: z.number(),
+				})
+				.array(),
+			pagination: paginationSchema,
+		});
+
+		const res = await fetch(
+			`${this.baseUrl}/v1/datasets/${datasetName}?${params.toString()}`,
+			{
+				method: "POST",
+				body: JSON.stringify(options),
+				headers: this.headers,
+			},
+		);
+		const dataset = datasetSchema.parse(await res.json());
+		return dataset;
+	}
+
 	static reportSchema = z.object({
 		title: z.string(),
 		fields: z.array(
@@ -210,3 +273,41 @@ const paginationSchema = z.object({
 	next_page: z.string().nullable(),
 	previous_page: z.string().nullable(),
 });
+
+type Aggregation = {
+	field: string;
+	aggregation: "count" | "sum" | "avg" | "min" | "max";
+};
+
+type Sort = {
+	field: string;
+	sort: "asc" | "desc";
+};
+
+type Filter = {
+	match: "any" | "all";
+	filters: {
+		field: string;
+		operator:
+			| "contains"
+			| "does_not_contain"
+			| "equal"
+			| "not_equal"
+			| "empty"
+			| "not_empty"
+			| "lt"
+			| "lte"
+			| "gt"
+			| "gte"
+			| "last"
+			| "next"
+			| "range"
+			| "checked"
+			| "not_checked"
+			| "includes"
+			| "does_not_include";
+		value: string;
+	};
+};
+
+type Group = string[];
