@@ -114,6 +114,29 @@ export class BHR {
 		const table = tableSchema.parse(await res.json());
 		return table;
 	}
+
+	/**
+	 * Retrieve available datasets.
+	 *
+	 * @returns Dataset Index
+	 */
+	async getDatasets() {
+		const datasetIndexSchema = z
+			.object({
+				datasets: z.object({
+					name: z.string(),
+					label: z.string(),
+				}),
+			})
+			.array();
+
+		const res = await fetch(`${this.baseUrl}/v1/datasets`, {
+			method: "GET",
+			headers: this.headers,
+		});
+		const datasetIndex = datasetIndexSchema.parse(await res.json());
+		return datasetIndex;
+	}
 	static reportSchema = z.object({
 		title: z.string(),
 		fields: z.array(
